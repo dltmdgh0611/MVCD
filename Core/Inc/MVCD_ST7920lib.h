@@ -1,21 +1,24 @@
-#ifndef __MVCD_ST7920lib_H
-#define __MVCD_ST7920lib_H
+/*
+ * MVCD_ST7920lib.h
+ *
+ *  Created on: Feb 19, 2020
+ *      Author: user
+ */
 
-#include "stm32f4xx_hal.h"
-#include "stm32f4xx_hal.h"
-#include <math.h>
-
-#define INSTMOD 0
-
-#define DATAMOD 1
+#ifndef INC_MVCD_ST7920LIB_H_
+#define INC_MVCD_ST7920LIB_H_
 
 
-int lcdmap[8][64];
+#define CMD 0
 
-void MVCD_Send8bit(unsigned char data, _Bool modflag); //send 8bit using to SPI
+#define DATA 1
 
-void MVCD_Dot(int xpos, int ypos); // draw dots on the GLCD
+void MVCD_delay_us (uint16_t us); //delay microseconds
 
-void MVCD_Allclear(); // clear all dots
+void SendByte_SPI(uint8_t byte); //send 8bit using GPIO SPI
 
-#endif /*__MVCD_ST7920lib_H*/
+void ST7920_Send (uint8_t data, _Bool modflag); //modflag - (data 1), (cmd 0)
+
+void MVCD_ST7920_baseinit(); // setting LCD baseinit
+
+#endif /* INC_MVCD_ST7920LIB_H_ */
