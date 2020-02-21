@@ -1,7 +1,9 @@
 MVCD_ST7920lib.c:31:6:MVCD_delay_us	16	static
 MVCD_ST7920lib.c:37:6:MVCD_SendByte_SPI	24	static
-MVCD_ST7920lib.c:55:6:MVCD_ST7920_Send	16	static
-MVCD_ST7920lib.c:67:6:MVCD_ST7920_baseinit	8	static
-MVCD_ST7920lib.c:99:6:MVCD_ST7920_GraphicMode	16	static
-MVCD_ST7920lib.c:119:6:MVCD_dot_xy	32	static
-MVCD_ST7920lib.c:131:6:MVCD_LCDclear	16	static
+MVCD_ST7920lib.c:54:6:MVCD_ST7920_Send	16	static
+MVCD_ST7920lib.c:65:6:MVCD_ST7920_baseinit	8	static
+MVCD_ST7920lib.c:97:6:MVCD_ST7920_GraphicMode	16	static
+MVCD_ST7920lib.c:117:6:MVCD_dot_xy	32	static
+MVCD_ST7920lib.c:129:6:MVCD_deldot_xy	32	static
+MVCD_ST7920lib.c:141:6:MVCD_LCDclear	16	static
+MVCD_ST7920lib.c:156:6:MVCD_DrawBitmap	24	static

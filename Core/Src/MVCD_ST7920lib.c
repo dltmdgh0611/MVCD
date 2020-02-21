@@ -48,13 +48,11 @@ void MVCD_SendByte_SPI(uint8_t byte)
 		HAL_GPIO_WritePin(SCLK_PORT, SCLK_PIN, GPIO_PIN_RESET);  // SCLK =0  OR SCK
 
 		HAL_GPIO_WritePin(SCLK_PORT, SCLK_PIN, GPIO_PIN_SET);  // SCLK=1
-
 	}
 }
 
-void MVCD_ST7920_Send (uint8_t data, int modflag) //modflag - (data 1), (cmd 0)
+void MVCD_ST7920_Send(uint8_t data, int modflag) //modflag - (data 1), (cmd 0)
 {
-
 	HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_SET);  // PUll the CS high
 
 	MVCD_SendByte_SPI(0xf8+(modflag<<1));  // send the SYNC + RS(1)
@@ -128,6 +126,18 @@ void MVCD_dot_xy(int x,int y){
     MVCD_ST7920_Send(prv_val[flx][y]&0xff, DATA);
 }
 
+void MVCD_deldot_xy(int x,int y){
+    int flx = (int)floor(x/16);
+    prv_val[flx][y] &= ~(0x8000 >> x%16);
+    MVCD_ST7920_Send(0x36, CMD);
+    MVCD_ST7920_Send(0x80+(y % 32), CMD);
+    MVCD_ST7920_Send(0x80+ (y / 32) * 8 + floor(x/16), CMD);
+
+    MVCD_ST7920_Send(0x30, CMD);
+    MVCD_ST7920_Send(((prv_val[flx][y] &0xff00)>>8), DATA);
+    MVCD_ST7920_Send(prv_val[flx][y]&0xff, DATA);
+}
+
 void MVCD_LCDclear(){
     for(int j=0;j<8;j++){
         for(int i=0;i<64;i++){
@@ -141,4 +151,33 @@ void MVCD_LCDclear(){
         }
     }
 
+}
+
+void MVCD_DrawBitmap(const unsigned char* graphic)
+{
+	uint8_t x, y;
+	for(y = 0; y < 64; y++)
+	{
+		if(y < 32)
+		{
+			for(x = 0; x < 8; x++)							// Draws top half of the screen.
+			{												// In extended instruction mode, vertical and horizontal coordinates must be specified before sending data in.
+				MVCD_ST7920_Send(0x80 | y,CMD);				// Vertical coordinate of the screen is specified first. (0-31)
+				MVCD_ST7920_Send(0x80 | x,CMD);				// Then horizontal coordinate of the screen is specified. (0-8)
+				MVCD_ST7920_Send(graphic[2*x + 16*y],DATA);		// Data to the upper byte is sent to the coordinate.
+				MVCD_ST7920_Send(graphic[2*x+1 + 16*y],DATA);	// Data to the lower byte is sent to the coordinate.
+			}
+		}
+		else
+		{
+			for(x = 0; x < 8; x++)							// Draws bottom half of the screen.
+			{												// Actions performed as same as the upper half screen.
+				MVCD_ST7920_Send(0x80 | (y-32),CMD);			// Vertical coordinate must be scaled back to 0-31 as it is dealing with another half of the screen.
+				MVCD_ST7920_Send(0x88 | x,CMD);
+				MVCD_ST7920_Send(graphic[2*x + 16*y],DATA);
+				MVCD_ST7920_Send(graphic[2*x+1 + 16*y],DATA);
+			}
+		}
+
+	}
 }

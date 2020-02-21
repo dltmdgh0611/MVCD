@@ -29,6 +29,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "MVCD_ST7920lib.h"
+#include "bitmaps.h"
 #include <stdio.h>
 /* USER CODE END Includes */
 
@@ -79,7 +80,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+   HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -100,13 +101,63 @@ int main(void)
   MX_TIM1_Init();
   MX_UART4_Init();
   /* USER CODE BEGIN 2 */
-
+  uint8_t a = 'a';
+  uint8_t s = 'k';
   HAL_TIM_Base_Start(&htim1);
   MVCD_ST7920_baseinit();
   MVCD_ST7920_GraphicMode(ON);
 
-  uint8_t a = 'a';
-  uint8_t s = 'k';
+  MVCD_DrawBitmap(cubelogo);
+  HAL_Delay(5000);
+
+  MVCD_DrawBitmap(MVCDlogo);
+  HAL_Delay(5000);
+
+  MVCD_DrawBitmap(Loading);
+
+
+
+
+
+
+
+  /********************** Loading.... */
+  for(int i=0;i<128;i++){
+	  for(int j=0;j<4;j++){
+		  if(i==0 || i==127) MVCD_dot_xy(i, 30+j);
+		  else {
+			  if(j==0 || j==3) MVCD_dot_xy(i, 30+j);
+		  }
+	  }
+  }
+
+  while(1){
+	  for(int i=0;i<126;i++){
+	 	  for(int j=0;j<2;j++){
+	 		 MVCD_dot_xy(1+i, 31+j);
+	 		 HAL_Delay(25);
+	 		 if(HAL_UART_Receive(&huart3, a, 1, 10) == HAL_OK) goto START;
+	 	  }
+	  }
+	  for(int i=0;i<126;i++){
+	 	  for(int j=0;j<2;j++){
+	 		 MVCD_deldot_xy(1+i, 31+j);
+	 	  }
+	  }
+  }
+
+  START:
+  /********************** Loading.... */
+  MVCD_LCDclear();
+  HAL_Delay(100);
+
+
+
+
+
+
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -118,7 +169,6 @@ int main(void)
 	  for(int x=0;x<128;x++){
 		  for(int y=0;y<64;y++){
 			  MVCD_dot_xy(x % 2 == 0 ? x : 128 - x, y);
-			  printf("why so serious?\n");
 		  }
 	  }
 	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
