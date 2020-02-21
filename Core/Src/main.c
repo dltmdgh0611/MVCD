@@ -100,7 +100,7 @@ int main(void)
 
   HAL_TIM_Base_Start(&htim1);
   MVCD_ST7920_baseinit();
-
+  MVCD_ST7920_GraphicMode(ON);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -109,9 +109,13 @@ int main(void)
   while (1)
   {
 
-	  MVCD_ST7920_Send(0x31, DATA);
+	  for(int x=0;x<128;x++){
+		  for(int y=0;y<64;y++){
+			  MVCD_dot_xy(x % 2 == 0 ? x : 128 - x, y);
+		  }
+	  }
 	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
-	  MVCD_delay_us(50000);
+	  MVCD_LCDclear();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

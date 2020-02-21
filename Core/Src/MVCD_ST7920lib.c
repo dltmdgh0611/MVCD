@@ -60,7 +60,7 @@ void MVCD_ST7920_Send (uint8_t data, int modflag) //modflag - (data 1), (cmd 0)
 	MVCD_SendByte_SPI(0xf8+(modflag<<1));  // send the SYNC + RS(1)
 	MVCD_SendByte_SPI(data&0xf0);  // send the higher nibble first
 	MVCD_SendByte_SPI((data<<4)&0xf0);  // send the lower nibble
-	MVCD_delay_us(50);
+	MVCD_delay_us(10);
 	HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_RESET);  // PUll the CS LOW
 }
 
@@ -96,3 +96,49 @@ void MVCD_ST7920_baseinit(){
 	HAL_Delay(2);
 }
 
+void MVCD_ST7920_GraphicMode (_Bool enable)   // 1-enable, 0-disable
+{
+	if (enable == ON)
+	{
+		MVCD_ST7920_Send(0x30,CMD);  // 8 bit mode
+		HAL_Delay (1);
+		MVCD_ST7920_Send(0x34,CMD);  // switch to Extended instructions
+		HAL_Delay (1);
+		MVCD_ST7920_Send(0x36,CMD);  // enable graphics
+		HAL_Delay (1);
+	}
+
+	else if (enable == OFF)
+	{
+		MVCD_ST7920_Send(0x30,CMD);  // 8 bit mode
+		HAL_Delay (1);
+	}
+}
+
+
+void MVCD_dot_xy(int x,int y){
+    int flx = (int)floor(x/16);
+    prv_val[flx][y] |= (0x8000 >> x%16);
+    MVCD_ST7920_Send(0x36, CMD);
+    MVCD_ST7920_Send(0x80+(y % 32), CMD);
+    MVCD_ST7920_Send(0x80+ (y / 32) * 8 + floor(x/16), CMD);
+
+    MVCD_ST7920_Send(0x30, CMD);
+    MVCD_ST7920_Send(((prv_val[flx][y] &0xff00)>>8), DATA);
+    MVCD_ST7920_Send(prv_val[flx][y]&0xff, DATA);
+}
+
+void MVCD_LCDclear(){
+    for(int j=0;j<8;j++){
+        for(int i=0;i<64;i++){
+        	MVCD_ST7920_Send(0x36, CMD);
+        	MVCD_ST7920_Send(0x80+(i%32), CMD);
+        	MVCD_ST7920_Send(0x80+((i/32)*8+j), CMD);
+        	MVCD_ST7920_Send(0x30, CMD);
+        	MVCD_ST7920_Send(0x00, DATA);
+        	MVCD_ST7920_Send(0x00, DATA);
+        	prv_val[j][i] = 0;
+        }
+    }
+
+}
