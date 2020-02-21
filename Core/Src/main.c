@@ -29,12 +29,14 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "MVCD_ST7920lib.h"
-
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+int _write(int file, char *p, int len){
+	HAL_UART_Transmit(&huart3, p, len, 10);
+}
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -96,11 +98,15 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
   MX_TIM1_Init();
+  MX_UART4_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_Base_Start(&htim1);
   MVCD_ST7920_baseinit();
   MVCD_ST7920_GraphicMode(ON);
+
+  uint8_t a = 'a';
+  uint8_t s = 'k';
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -112,6 +118,7 @@ int main(void)
 	  for(int x=0;x<128;x++){
 		  for(int y=0;y<64;y++){
 			  MVCD_dot_xy(x % 2 == 0 ? x : 128 - x, y);
+			  printf("why so serious?\n");
 		  }
 	  }
 	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
