@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Core/Src/MVCD_Graphics.c \
 ../Core/Src/MVCD_ST7920lib.c \
 ../Core/Src/eth.c \
 ../Core/Src/gpio.c \
@@ -19,6 +20,7 @@ C_SRCS += \
 ../Core/Src/usb_otg.c 
 
 OBJS += \
+./Core/Src/MVCD_Graphics.o \
 ./Core/Src/MVCD_ST7920lib.o \
 ./Core/Src/eth.o \
 ./Core/Src/gpio.o \
@@ -34,6 +36,7 @@ OBJS += \
 ./Core/Src/usb_otg.o 
 
 C_DEPS += \
+./Core/Src/MVCD_Graphics.d \
 ./Core/Src/MVCD_ST7920lib.d \
 ./Core/Src/eth.d \
 ./Core/Src/gpio.d \
@@ -50,6 +53,8 @@ C_DEPS += \
 
 
 # Each subdirectory must supply rules for building sources it contributes
+Core/Src/MVCD_Graphics.o: ../Core/Src/MVCD_Graphics.c
+	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DDEBUG -DSTM32F429xx -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/MVCD_Graphics.d" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 Core/Src/MVCD_ST7920lib.o: ../Core/Src/MVCD_ST7920lib.c
 	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DDEBUG -DSTM32F429xx -c -I../Drivers/CMSIS/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Core/Inc -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/MVCD_ST7920lib.d" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 Core/Src/eth.o: ../Core/Src/eth.c

@@ -30,6 +30,7 @@
 /* USER CODE BEGIN Includes */
 #include "MVCD_ST7920lib.h"
 #include "bitmaps.h"
+#include "MVCD_Graphics.h"
 #include <stdio.h>
 /* USER CODE END Includes */
 
@@ -106,7 +107,7 @@ int main(void)
   HAL_TIM_Base_Start(&htim1);
   MVCD_ST7920_baseinit();
   MVCD_ST7920_GraphicMode(ON);
-
+  goto START;
   MVCD_DrawBitmap(cubelogo);
   HAL_Delay(5000);
 
@@ -147,18 +148,15 @@ int main(void)
   }
 
   START:
-  /********************** Loading.... */
   MVCD_LCDclear();
   HAL_Delay(100);
-
-
-
-
-
-
-
-
+  MVCD_DrawGrid();
+  MVCD_Draw1f((double)2/3, 0, 0, 0);
+  /********************** Loading.... */
   /* USER CODE END 2 */
+
+
+
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -166,13 +164,7 @@ int main(void)
   while (1)
   {
 
-	  for(int x=0;x<128;x++){
-		  for(int y=0;y<64;y++){
-			  MVCD_dot_xy(x % 2 == 0 ? x : 128 - x, y);
-		  }
-	  }
-	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
-	  MVCD_LCDclear();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

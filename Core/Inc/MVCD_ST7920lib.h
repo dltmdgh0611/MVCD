@@ -8,6 +8,7 @@
 #ifndef INC_MVCD_ST7920LIB_H_
 #define INC_MVCD_ST7920LIB_H_
 
+#include "stm32f4xx_hal.h"
 
 #define CMD 0
 

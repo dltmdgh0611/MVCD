@@ -7,3 +7,12 @@ C:\Users\user\source\repos\MVCD_Client\MVCD_Client\obj\Debug\MVCD_Client.Propert
 C:\Users\user\source\repos\MVCD_Client\MVCD_Client\obj\Debug\MVCD_Client.csproj.GenerateResource.cache
 C:\Users\user\source\repos\MVCD_Client\MVCD_Client\obj\Debug\MVCD_Client.exe
 C:\Users\user\source\repos\MVCD_Client\MVCD_Client\obj\Debug\MVCD_Client.pdb
+C:\Users\user\STM32CubeIDE\workspace_1.1.0\MVCD\MVCD_Client\MVCD_Client\bin\Debug\MVCD_Client.exe.config
+C:\Users\user\STM32CubeIDE\workspace_1.1.0\MVCD\MVCD_Client\MVCD_Client\bin\Debug\MVCD_Client.exe
+C:\Users\user\STM32CubeIDE\workspace_1.1.0\MVCD\MVCD_Client\MVCD_Client\bin\Debug\MVCD_Client.pdb
+C:\Users\user\STM32CubeIDE\workspace_1.1.0\MVCD\MVCD_Client\MVCD_Client\obj\Debug\MVCD_Client.csprojAssemblyReference.cache
+C:\Users\user\STM32CubeIDE\workspace_1.1.0\MVCD\MVCD_Client\MVCD_Client\obj\Debug\MVCD_Client.Form1.resources
+C:\Users\user\STM32CubeIDE\workspace_1.1.0\MVCD\MVCD_Client\MVCD_Client\obj\Debug\MVCD_Client.Properties.Resources.resources
+C:\Users\user\STM32CubeIDE\workspace_1.1.0\MVCD\MVCD_Client\MVCD_Client\obj\Debug\MVCD_Client.csproj.GenerateResource.cache
+C:\Users\user\STM32CubeIDE\workspace_1.1.0\MVCD\MVCD_Client\MVCD_Client\obj\Debug\MVCD_Client.exe
+C:\Users\user\STM32CubeIDE\workspace_1.1.0\MVCD\MVCD_Client\MVCD_Client\obj\Debug\MVCD_Client.pdb
